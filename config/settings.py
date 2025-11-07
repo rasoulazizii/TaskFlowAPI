@@ -44,7 +44,8 @@ INSTALLED_APPS = [
 
     #apps
     'users',
-    
+    'tasks',
+
 ]
 
 # rest_framework config
