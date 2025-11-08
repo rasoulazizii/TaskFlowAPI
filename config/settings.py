@@ -61,6 +61,20 @@ REST_FRAMEWORK = {
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'check-upcoming-tasks-every-day': {
+        'task': 'notifications.tasks.check_upcoming_tasks', 
+        'schedule': crontab(hour=8, minute=0), 
+        
+    },
+}
+
+# Email Configuration for Development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
