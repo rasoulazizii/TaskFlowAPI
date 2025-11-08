@@ -35,13 +35,13 @@ def send_reminder_email(task_id):
 
 @shared_task
 def check_upcoming_tasks():
-    now = timezone()
+    now = timezone.now()
     tomorrow = now + timedelta(days=1)
     upcoming_tasks = Task.objects.filter(
-        due_date_gte=now,
-        due_date_lt=tomorrow,
-        status_in=['TODO','IN_PROGRESS']
-    )
+    due_date__gte=now,
+    due_date__lt=tomorrow,
+    status__in=['TODO', 'IN_PROGRESS']
+)
     print(f'{upcoming_tasks.count()} found!')
     for task in upcoming_tasks:
         send_reminder_email.delay(task.id)
